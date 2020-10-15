@@ -51,25 +51,16 @@ namespace Vahid_Hajiyev_Percepteron_Laboratory_Work_1
 
             }
 
-
             float WEIGHT_UPDATING(float weight, float error, float input, float learningRate)
             {
-
-
                 weight += learningRate * error * input;
-
                 return weight;
             }
-
-
+           
             float BIAS_UPDATING_(float bias, int error, float learningRate)
             {
-
-
-                bias += learningRate * error;
-
-
-                return bias;
+               bias += learningRate * error;
+               return bias;
             }
             // giving random numbers to w0, w1, and bias only 1 time 
 
@@ -89,9 +80,7 @@ namespace Vahid_Hajiyev_Percepteron_Laboratory_Work_1
             bias = bs.NextDouble();
             Console.WriteLine("bias   = " + bias + "              ");
 
-            //------------------------------------------------------------------------------------------------------------------
-            //------------------------------------------------------------------------------------------------------------------
-
+            //------------------------------------------------------------------------------------------------------------------          
             double v;
             //starting calculation operations for apple1,apple2,apple3,apple4,apple5,pear1,pear2,pear3
 
@@ -113,7 +102,7 @@ namespace Vahid_Hajiyev_Percepteron_Laboratory_Work_1
             v = (apple2[0] * weights[0] + apple2[1] * weights[1] + bias);
 
             Console.WriteLine("v for apple 2 = " + v);
-
+ 
             output = DECISION_MAKING_ALGORITHM(v);
             Console.WriteLine("y for apple 2 = " + output);
             receviedOutput[1] = output;
@@ -156,7 +145,6 @@ namespace Vahid_Hajiyev_Percepteron_Laboratory_Work_1
             receviedOutput[4] = output;
             //*******************************************************************************
 
-
             Console.WriteLine("***************PEAR1******************");
             //Pear1**********************************************************************
 
@@ -175,10 +163,9 @@ namespace Vahid_Hajiyev_Percepteron_Laboratory_Work_1
 
             Console.WriteLine("v for pear2 = " + v);
 
-            output = DECISION_MAKING_ALGORITHM(v);
+           output = DECISION_MAKING_ALGORITHM(v);
             Console.WriteLine("y for pear2 = " + output);
             receviedOutput[6] = output;
-
 
             Console.WriteLine("***************PEAR3******************");
             //Pear3**********************************************************************
@@ -193,7 +180,6 @@ namespace Vahid_Hajiyev_Percepteron_Laboratory_Work_1
 
             desiredOutput[0] = 1;
             desiredOutput[1] = 1;
-
             desiredOutput[2] = 1;
             desiredOutput[3] = 1;
             desiredOutput[4] = 1;
@@ -203,9 +189,9 @@ namespace Vahid_Hajiyev_Percepteron_Laboratory_Work_1
 
             //gathering all elements of desiredOutput massive and send it to our screen
             Console.Write("desired output [ ");
-            for(int i = 0; i < 8; i++)
+            for (int i = 0; i < 8; i++)
             {
-                Console.Write(desiredOutput[i]+",");
+                Console.Write(desiredOutput[i] + ",");
             }
             Console.Write("] ");
 
@@ -223,9 +209,15 @@ namespace Vahid_Hajiyev_Percepteron_Laboratory_Work_1
             //--------------------------------------------------------------------------------------------------------------------------------------------
             Console.WriteLine("");
             Console.WriteLine("----------------------------------------------------------------------------------------------------------------------");
+         
+            //error_matrix saves the index of error outputs
+            double[] error_matrix = new double[9]; 
+            for(int i = 0; i <= 8; i++)
+            {
+                error_matrix[i] = i;
+            }
 
-
-             //checking and detecting errors and training them
+            //checking and detecting errors and training them
 
             for (int z = 0; z < 8; z++)
             {
@@ -233,58 +225,47 @@ namespace Vahid_Hajiyev_Percepteron_Laboratory_Work_1
 
                 if (errors[z] != 0)
                 {
-                    Console.Write((z + 1)+ " th fruit has error    "); //detecting error for appropriate fruit
+                    Console.Write((z + 1) + " th fruit has error    "); //detecting error for appropriate fruit
                     Console.WriteLine("");
 
-                    if ((z + 1) == 6)//program decided that this fruit is pear 1
+                    if ((z + 1) == error_matrix[6])//program decided that this fruit is pear 1
                     {
-                        
-                       
-                            weights[0] = random0;
-                            weights[1] = random1;
 
-                        while (v> 0) // because program decided that it is pear1 and it's "v" must be below 0. Training v while v>0
+                        weights[0] = random0;
+                        weights[1] = random1;
+
+                        while (v > 0) // because program decided that it is pear1 and it's "v" must be below 0. Training v while v>0
                         {
-
-
                             weights[0] = weights[0] + learningRate * errors[z] * pear1[0]; //updating w0
-
-
                             weights[1] = weights[1] + learningRate * errors[z] * pear1[1];//updating w1
-
-
                             bias = bias + learningRate * errors[z];//updating bias
-
-
                             v = (pear1[0] * weights[0] + pear1[1] * weights[1] + bias);// calculating last value of v for pear1
-                            //if v>0, it starts again to train our initial w0, w1, and bias
-                           
+                                                                                       //if v>0, it starts again to train our initial w0, w1, and bias
+
                         }
 
                         if (v < 0)//if our trained elements are correct, it means that our v for pears will be: v<0
                         {
-                           
+
                             errors[z] = 0; //changing error value of "errors" massive's elements which values gained from training (0)
                             receviedOutput[z] = -1; //changing appropriate receivedOutput value to correct one
 
                             //sending values to screen
-                            Console.WriteLine("updated universal weight 0:  "+weights[0]);
+                            Console.WriteLine("updated universal weight 0:  " + weights[0]);
                             Console.WriteLine("updated universal  weight 1:  " + weights[1]);
                             Console.WriteLine("updated bias:  " + bias);
                             Console.WriteLine("v for pear 1:     " + v);
-
                             Console.WriteLine("Final error value for Pear 1 is : " + errors[z]);
                             Console.WriteLine("---------------------------------------------------------------------");
-
 
                         }
 
                     }
-                   
-                    if ((z + 1) == 7)// program decided that this fruit is pear 2
+
+                    if ((z + 1) == error_matrix[7])// program decided that this fruit is pear 2
                     {
 
-                            v = (pear2[0] * weights[0] + pear2[1] * weights[1] + bias); //calculating last value of v for pear2
+                        v = (pear2[0] * weights[0] + pear2[1] * weights[1] + bias); //calculating last value of v for pear2
 
                         if (v < 0)
                         {
@@ -304,18 +285,14 @@ namespace Vahid_Hajiyev_Percepteron_Laboratory_Work_1
 
                         }
 
-
                     }
 
-
-                    if ((z + 1) == 8)//program decided that this fruit is pear 3
+                    if ((z + 1) == error_matrix[8])//program decided that this fruit is pear 3
                     {
-                       
+
                         v = (pear3[0] * weights[0] + pear3[1] * weights[1] + bias); //calculating last value of v for pear3
 
-
-
-                        if (v < 0)
+                       if (v < 0)
                         {
                             receviedOutput[z] = -1;
 
@@ -328,35 +305,32 @@ namespace Vahid_Hajiyev_Percepteron_Laboratory_Work_1
 
                             Console.WriteLine("Final error value for Pear 3 is : " + errors[z]);
                             Console.WriteLine("---------------------------------------------------------------------");
-
-
-
                         }
 
                     }
 
                 }
+            
             }
             Console.WriteLine("*********************************************************************************************************");
 
             //sending elements of error array to screen
             Console.Write("Elements of error array :  [");
-               for(int i = 0; i < 8; i++)
-               {
-                Console.Write(errors[i]+",");
-               }
+            for (int i = 0; i < 8; i++)
+            {
+                Console.Write(errors[i] + ",");
+            }
 
             Console.WriteLine("]");
 
             //sending final elements of receivedOutput array to screen
-              Console.Write("Final Received output array :  [");
-               for(int i = 0; i < 8; i++)
-               {
-                Console.Write(receviedOutput[i]+",");
-               }
+            Console.Write("Final Received output array :  [");
+            for (int i = 0; i < 8; i++)
+            {
+                Console.Write(receviedOutput[i] + ",");
+            }
 
             Console.WriteLine("]");
-
         }
 
     }//***********************END OF SINGLE LINE PERCEPTERON TRAINING LABORATORY WORK 1 OF VAHID HAJIYEV**********************************
